@@ -1,18 +1,40 @@
+import java.util.*;
+
 public class Main {
     public static void main(String[] args) {
-        // Create donors
-        Donor donor1 = new Donor("Altair", "altair_k@gmail.com");
-        Donor donor2 = new Donor("Shamil", "shamil_s@gmail.com");
 
-        Charity charity1 = new Charity("Medrese");
-        Charity charity2 = new Charity("Sadaka in mosques");
+        Scanner scanner = new Scanner(System.in);
 
-        Donation donation1 = new Donation(donor1, charity1, 100);
-        Donation donation2 = new Donation(donor2, charity2, 200);
+        Charity charity = new Charity("Hope Foundation");
 
-        System.out.println(donor1);
-        System.out.println(charity1);
-        System.out.println(donation1);
-        
+        List<Donation> donations = new ArrayList<>();
+
+        Donor d1 = new Donor("Altair", "altair_k@gmail.com");
+        Donor d2 = new Donor("Shamil", "shamil_s@gmail.com");
+
+        donations.add(new Donation(d1, charity, 100));
+        donations.add(new Donation(d2, charity, 300));
+        donations.add(new Donation(d1, charity, 200));
+
+        System.out.println("All donations:");
+        for (Donation d : donations) {
+            System.out.println(d);
+        }
+
+        System.out.println("\nDonations greater than 150:");
+        for (Donation d : donations) {
+            if (d.getAmount() > 150) {
+                System.out.println(d);
+            }
+        }
+
+        donations.sort(Comparator.comparingDouble(Donation::getAmount));
+
+        System.out.println("\nSorted by amount:");
+        for (Donation d : donations) {
+            System.out.println(d);
+        }
+
+        scanner.close();
     }
 }
