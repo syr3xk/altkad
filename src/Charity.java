@@ -1,30 +1,19 @@
 public class Charity {
-    private String title;
-    private String mission;
+    private String name;
 
-    public Charity() {}
-
-    public Charity(String title, String mission) {
-        this.title = title;
-        this.mission = mission;
+    public Charity(String name) {
+        this.name = name;
     }
 
-    public String getTitle() { return title; }
-    public String getMission() { return mission; }
+    public String getName() {
+        return name;
+    }
 
-    public void setTitle(String title) { this.title = title; }
-    public void setMission(String mission) { this.mission = mission; }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    @Override
     public String toString() {
-        return "Charity{title='" + title + "', mission='" + mission + "'}";
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (!(obj instanceof Charity)) return false;
-        Charity other = (Charity) obj;
-        return this.title.equalsIgnoreCase(other.title);
+        return "Charity{name='" + name + "'}";
     }
 }
