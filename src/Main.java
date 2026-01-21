@@ -4,7 +4,7 @@ public class Main {
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
-
+        CharityDAO dao = new CharityDAO();
         Charity charity = new Charity("Hope Foundation");
 
         List<Donation> donations = new ArrayList<>();
@@ -15,6 +15,11 @@ public class Main {
         donations.add(new Donation(d1, charity, 100));
         donations.add(new Donation(d2, charity, 300));
         donations.add(new Donation(d1, charity, 200));
+
+        dao.addCharity("Hope Foundation");
+        dao.getAllCharities();
+        dao.updateCharity(1, "New Hope Foundation");
+        dao.deleteCharity(2);
 
         System.out.println("All donations:");
         for (Donation d : donations) {
