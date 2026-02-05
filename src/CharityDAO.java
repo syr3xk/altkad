@@ -1,58 +1,73 @@
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CharityDAO {
 
-    public void addCharity(String name) {
-        String sql = "INSERT INTO charity(name) VALUES (?)";
+    public void addCharity(String name, String city) {
+        String sql = "INSERT INTO charity (name, city) VALUES (?, ?)";
 
-        try (Connection c = DBConnection.getConnection();
-             PreparedStatement ps = c.prepareStatement(sql)) {
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
             ps.setString(1, name);
+            ps.setString(2, city);
             ps.executeUpdate();
-        } catch (Exception e) {
+
+            System.out.println("Charity added");
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public void getAllCharities() {
-        String sql = "SELECT * FROM charity";
+    public List<Charity> getAllCharities() {
+        List<Charity> list = new ArrayList<>();
+        String sql = "SELECT charity_id, name, city FROM charity";
 
-        try (Connection c = DBConnection.getConnection();
-             Statement st = c.createStatement();
+        try (Connection conn = DBConnection.getConnection();
+             Statement st = conn.createStatement();
              ResultSet rs = st.executeQuery(sql)) {
 
             while (rs.next()) {
-                System.out.println(
-                        rs.getInt("charity_id") + " " +
-                                rs.getString("name")
-                );
+                int id = rs.getInt("charity_id");
+                String name = rs.getString("name");
+                String city = rs.getString("city");
+
+                list.add(new Charity(id, name, city));
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
+        return list;
     }
 
-    public void updateCharity(int id, String name) {
-        String sql = "UPDATE charity SET name=? WHERE charity_id=?";
+    public void updateCharity(int id, String newName) {
+        String sql = "UPDATE charity SET name = ? WHERE charity_id = ?";
 
-        try (Connection c = DBConnection.getConnection();
-             PreparedStatement ps = c.prepareStatement(sql)) {
-            ps.setString(1, name);
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, newName);
             ps.setInt(2, id);
             ps.executeUpdate();
-        } catch (Exception e) {
+
+            System.out.println("Charity updated");
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     public void deleteCharity(int id) {
-        String sql = "DELETE FROM charity WHERE charity_id=?";
+        String sql = "DELETE FROM charity WHERE charity_id = ?";
 
-        try (Connection c = DBConnection.getConnection();
-             PreparedStatement ps = c.prepareStatement(sql)) {
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
             ps.setInt(1, id);
             ps.executeUpdate();
-        } catch (Exception e) {
+
+            System.out.println("Charity deleted");
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
